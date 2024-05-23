@@ -1,0 +1,14 @@
+    session_start();
+    if (empty($_SESSION['auth']) || $_SESSION['status'] == 0) {
+        header("Location: ../index.php");
+    } 
+
+    include("../config.php");
+
+    $res = fetch("SELECT COUNT(*) as count FROM orders WHERE status='Готова к выдаче'");
+    $count = $res['count'];
+
+    $aver = fetch("SELECT sum(hours_taken)/count(hours_taken) AS average_time FROM orders");
+
+    $ent = fetch("SELECT COUNT(id) AS ct FROM orders WHERE autotype = 'Легковой'");
+    $bet = fetch("SELECT COUNT(id) AS ct FROM orders WHERE autotype = 'Грузовой'");
